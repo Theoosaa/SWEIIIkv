@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="alleKunden.css" type="text/css"/>
+    <title>
+        <ui:insert name="title">Kundenverwaltung 1.0</ui:insert>
+    </title>
+</h:head>
+<h:body>
+    <div id="header">
+        <ui:insert name="header">
+            <a>Neuen Kunden anlegen.</a>
+        </ui:insert>
+    </div>
+    <div id="content">
+        <h:form>
+            <h:panelGrid columns="2" headerClass="header" footerClass="footer">
+                <h:outputLabel value="Vorname:" for="vorname"/>
+                <h:panelGroup>
+                    <h:inputText required="true" requiredMessage="Eingabe fehlt" id="vorname" value="#{kundenHandler.merkeKunde.vorname}"/>
+                    <h:message for="vorname" class="message"/>
+                </h:panelGroup>
+
+                <h:outputLabel value="Nachname:" for="nachname"/>
+                <h:panelGroup>
+                    <h:inputText required="true" requiredMessage="Eingabe fehlt" id="nachname" value="#{kundenHandler.merkeKunde.nachname}"/>
+                    <h:message for="nachname" class="message"/>
+                </h:panelGroup>
+
+                <h:outputLabel value="Geburtsdatum:" for="geburtsdatum"/>
+                <h:panelGroup>
+                    <h:inputText required="true" requiredMessage="Eingabe fehlt" id="geburtsdatum" value="#{kundenHandler.merkeKunde.geburtsdatum}">
+                    <f:convertDateTime pattern="dd.MM.yy" />
+                    </h:inputText>
+                    <h:message for="geburtsdatum" class="message" />
+                </h:panelGroup>
+                <h:commandButton action="#{kundenHandler.speichern()}" value="Speichern"/>
+            </h:panelGrid>
+        </h:form>
+    </div>
+    <div id="footer">
+        <ui:insert name="footer">
+            <h:link value="Alle Kunden ansehen" outcome="alleKunden"/>
+
+        </ui:insert>
+    </div>
+</h:body>
+</html>

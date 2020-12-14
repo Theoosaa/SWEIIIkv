@@ -1,0 +1,53 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+        "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:f="http://java.sun.com/jsf/core">
+<h:head>
+    <link rel="stylesheet" href="alleKunden.css" type="text/css"/>
+    <title>
+        <ui:insert name="title">Kundenverwaltung 1.0</ui:insert>
+    </title>
+</h:head>
+<h:body>
+    <div id="header">
+        <ui:insert name="header">
+            <a>Bestehende Kunden einsehen</a>
+        </ui:insert>
+    </div>
+    <div id="content">
+        <ui:insert name="content">
+            <h:dataTable var="kunde" value="#{kundenHandler.storedKunden}"
+                         rowClasses="odd,even" headerClass="header">
+                <f:facet name="header">Kunden</f:facet>
+                <h:column>
+                    <f:facet name="header">Vorname</f:facet>
+                    <h:outputText value="#{kunde.vorname}"/>
+                </h:column>
+                <h:column>
+                    <f:facet name="header">Nachname</f:facet>
+                    <h:outputText value="#{kunde.nachname}"/>
+                </h:column>
+                <h:column>
+                    <div id="centered">
+                    <f:facet name="header">Geburtsdatum</f:facet>
+                    <h:outputText value="#{kunde.geburtsdatum}">
+                        <f:convertDateTime pattern="dd.MM.yy" />
+                    </h:outputText>
+                    </div>
+                </h:column>
+            </h:dataTable>
+        </ui:insert>
+        <h:form>
+            <h:commandButton action="#{kundenHandler.neu}" value="Neuen Kunden alegen"/>
+        </h:form>
+    </div>
+    <div id="footer">
+        <ui:insert name="footer">
+            <p></p>
+        </ui:insert>
+    </div>
+</h:body>
+</html>
