@@ -5,7 +5,7 @@ import de.hsb.app.kv.model.Kunde;
 import java.io.Serializable;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
-import java.util.List;
+
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -23,14 +23,13 @@ public class kundenHandler implements Serializable {
 
     private static final long serialVersionUID = -2270264364807391691L;
 
-    @PersistenceContext(name= "kv-persistence-unit")
+    @PersistenceContext(name = "kv-persistence-unit")
     private EntityManager em;
     @Resource
     private UserTransaction utx;
 
     private DataModel<Kunde> kunden;
     private Kunde merkeKunde = new Kunde();
-    private List<Kunde> storedKunden;
 
 
     public Kunde getMerkeKunde() {
@@ -39,30 +38,6 @@ public class kundenHandler implements Serializable {
 
     public void setMerkeKunde(Kunde merkeKunde) {
         this.merkeKunde = merkeKunde;
-    }
-
-    public List<Kunde> getStoredKunden() {
-        return storedKunden;
-    }
-
-    public void setStoredKunden(List<Kunde> storedKunden) {
-        this.storedKunden = storedKunden;
-    }
-
-    public EntityManager getEm() {
-        return em;
-    }
-
-    public void setEm(EntityManager em) {
-        this.em = em;
-    }
-
-    public UserTransaction getUtx() {
-        return utx;
-    }
-
-    public void setUtx(UserTransaction utx) {
-        this.utx = utx;
     }
 
     public DataModel<Kunde> getKunden() {
