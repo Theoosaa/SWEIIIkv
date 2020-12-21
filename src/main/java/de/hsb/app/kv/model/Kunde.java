@@ -1,27 +1,31 @@
 package de.hsb.app.kv.model;
 
+import javax.persistence.*;
 import java.io.Serializable;
 import java.util.Date;
+import java.util.UUID;
+
+@NamedQuery(name="SelectKunden", query="Select k from Kunde k")
+@Entity
 
 public class Kunde implements Serializable {
 
     private static final long serialVersionUID = -8458300548433261434L;
 
+    @Id
+    @GeneratedValue
+    private UUID id;
+    private String vorname;
+    private String nachname;
+    @Temporal(TemporalType.DATE)
+    private Date geburtsdatum;
 
-	public Kunde(){}
+    public Kunde() { }
 
-    String vorname;
-    String nachname;
-    String geburtsdatum;
-    
-
-    public Kunde(String vorname, String nachname, String geburtsdatum) {
+    public Kunde(String vorname, String nachname, Date geburtsdatum) {
         this.vorname = vorname;
         this.nachname = nachname;
         this.geburtsdatum = geburtsdatum;
-    }
-
-    public Kunde(String hugo, String herrmann, Date time) {
     }
 
     public String getVorname() {
@@ -40,17 +44,14 @@ public class Kunde implements Serializable {
         this.nachname = nachname;
     }
 
-    public String getGeburtsdatum() {
+    public Date getGeburtsdatum() {
         return geburtsdatum;
     }
 
-    public void setGeburtsdatum(String geburtsdatum) {
-        this.geburtsdatum = geburtsdatum;
+    public void setGeburtsdatum(Date geburtsdatum) {
+        {
+            this.geburtsdatum = geburtsdatum;
+        }
     }
-
-
-
-
-
 }
 

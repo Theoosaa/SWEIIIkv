@@ -1,28 +1,37 @@
 package de.hsb.app.kv.controller;
 
-import java.util.Arrays;
-import java.util.GregorianCalendar;
-import java.util.LinkedList;
-import java.util.List;
 import de.hsb.app.kv.model.Kunde;
 
+import java.io.Serializable;
+import java.util.Calendar;
+import java.util.GregorianCalendar;
+import java.util.List;
+
 import javax.annotation.PostConstruct;
+import javax.annotation.Resource;
+import javax.enterprise.context.SessionScoped;
 import javax.faces.model.DataModel;
 import javax.faces.model.ListDataModel;
+import javax.inject.Named;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.transaction.*;
 
-public class kundenHandler  {
+@SessionScoped
+@Named("kundenHandler")
+public class kundenHandler implements Serializable {
+
+    private static final long serialVersionUID = -2270264364807391691L;
+
+    @PersistenceContext(name= "kv-persistence-unit")
+    private EntityManager em;
+    @Resource
+    private UserTransaction utx;
 
     private DataModel<Kunde> kunden;
-    private Kunde merkeKunde= new Kunde();
+    private Kunde merkeKunde = new Kunde();
     private List<Kunde> storedKunden;
 
-    public DataModel<Kunde> getKunden() {
-        return kunden;
-    }
-
-    public void setKunden(DataModel<Kunde> kunden) {
-        this.kunden = kunden;
-    }
 
     public Kunde getMerkeKunde() {
         return merkeKunde;
@@ -40,23 +49,60 @@ public class kundenHandler  {
         this.storedKunden = storedKunden;
     }
 
-    @PostConstruct
-    public void init() {
-        storedKunden = new LinkedList<Kunde>(Arrays.asList(new Kunde[]{new Kunde("Hugo", "Herrmann", new GregorianCalendar(1999, 03, 03).getTime())
-        }));
-        kunden = new ListDataModel<>();
-        kunden.setWrappedData(storedKunden);
+    public EntityManager getEm() {
+        return em;
     }
 
-    public String neu(){
+    public void setEm(EntityManager em) {
+        this.em = em;
+    }
+
+    public UserTransaction getUtx() {
+        return utx;
+    }
+
+    public void setUtx(UserTransaction utx) {
+        this.utx = utx;
+    }
+
+    public DataModel<Kunde> getKunden() {
+        return kunden;
+    }
+
+    public void setKunden(DataModel<Kunde> kunden) {
+        this.kunden = kunden;
+    }
+
+    @PostConstruct
+    public void init() {
+
+
+        try {
+            utx.begin();
+            em.persist(new Kunde("Bert", "Hinz", new GregorianCalendar(1999, Calendar.MARCH, 15).getTime()));
+            kunden = new ListDataModel<>();
+            kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
+            utx.commit();
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+
+
+    }
+
+    public String neu() {
         System.out.println("Ich bin die Methode neu() und wurde gerade aufgerufen");
         merkeKunde = new Kunde();
         return "neuerKunde";
     }
 
-    public String speichern(){
+    @Transactional
+    public String speichern() {
         System.out.println("Ich speichere");
-        getStoredKunden().add(merkeKunde);
+        merkeKunde = em.merge(merkeKunde);
+        em.persist(merkeKunde);
+        kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
         return "alleKunden";
     }
 

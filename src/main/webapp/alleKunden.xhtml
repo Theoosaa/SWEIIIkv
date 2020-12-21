@@ -19,7 +19,7 @@
     </div>
     <div id="content">
         <ui:insert name="content">
-            <h:dataTable var="kunde" value="#{kundenHandler.storedKunden}"
+            <h:dataTable var="kunde" value="#{kundenHandler.kunden}"
                          rowClasses="odd,even" headerClass="header">
                 <f:facet name="header">Kunden</f:facet>
                 <h:column>
@@ -47,7 +47,6 @@
     </div>
     <div id="footer">
         <ui:insert name="footer">
-            <p></p>
         </ui:insert>
     </div>
 </h:body>
