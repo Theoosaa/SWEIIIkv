@@ -54,7 +54,6 @@ public class kundenHandler implements Serializable {
 
         try {
             utx.begin();
-            em.persist(new Kunde("Bert", "Hinz", new GregorianCalendar(1999, Calendar.MARCH, 15).getTime()));
             kunden = new ListDataModel<>();
             kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
             utx.commit();
