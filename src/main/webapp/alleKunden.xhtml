@@ -23,6 +23,10 @@
                          rowClasses="odd,even" headerClass="header">
                 <f:facet name="header">Kunden</f:facet>
                 <h:column>
+                    <f:facet name="header">Anrede</f:facet>
+                <h:outputText value="#{kunde.anrede.label}" />
+            </h:column>
+                <h:column>
                     <f:facet name="header">Vorname</f:facet>
                     <h:outputText value="#{kunde.vorname}"/>
                 </h:column>
@@ -38,11 +42,22 @@
                     </h:outputText>
                     </div>
                 </h:column>
+                <h:column>
+                    <h:form>
+                    <f:facet name="header">Löschen</f:facet>
+                <h:commandButton action="#{kundenHandler.delete}" value="Löschen" />
+                    </h:form>
+            </h:column>
+            <h:column>
+                <h:form>
+                <f:facet name="header">Editieren</f:facet>
+                <h:commandButton action="#{kundenHandler.edit}" value="Editieren" />
+                </h:form>
+            </h:column>
             </h:dataTable>
         </ui:insert>
         <h:form>
             <h:commandButton action="#{kundenHandler.neu}" value="Neuen Kunden alegen"/>
-
         </h:form>
     </div>
     <div id="footer">

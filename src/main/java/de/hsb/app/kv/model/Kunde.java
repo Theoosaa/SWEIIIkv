@@ -15,6 +15,7 @@ public class Kunde implements Serializable {
     @Id
     @GeneratedValue
     private UUID id;
+    private Anrede anrede;
     private String vorname;
     private String nachname;
     @Temporal(TemporalType.DATE)
@@ -22,7 +23,8 @@ public class Kunde implements Serializable {
 
     public Kunde() { }
 
-    public Kunde(String vorname, String nachname, Date geburtsdatum) {
+    public Kunde(Anrede anrede,String vorname, String nachname, Date geburtsdatum) {
+        this.anrede = anrede;
         this.vorname = vorname;
         this.nachname = nachname;
         this.geburtsdatum = geburtsdatum;
@@ -48,10 +50,19 @@ public class Kunde implements Serializable {
         return geburtsdatum;
     }
 
+    public Anrede getAnrede() {
+        return anrede;
+    }
+
+    public void setAnrede(Anrede anrede) {
+        this.anrede = anrede;
+    }
+
     public void setGeburtsdatum(Date geburtsdatum) {
         {
             this.geburtsdatum = geburtsdatum;
         }
+
     }
 }
 

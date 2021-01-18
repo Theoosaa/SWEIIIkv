@@ -1,10 +1,10 @@
 package de.hsb.app.kv.controller;
 
+import de.hsb.app.kv.model.Anrede;
 import de.hsb.app.kv.model.Kunde;
 
 import java.io.Serializable;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
+
 
 
 import javax.annotation.PostConstruct;
@@ -79,5 +79,26 @@ public class kundenHandler implements Serializable {
         kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
         return "alleKunden";
     }
+    @Transactional
+    public String delete() {
+        System.out.println("Ich Lösche");
+        merkeKunde= kunden.getRowData();
+        merkeKunde= em.merge(merkeKunde);
+        em.remove(merkeKunde);
+        kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
+        return"alleKunden";
+    }
+    @Transactional
+    public String edit() {
+        System.out.println("Ich Editiere");
+        merkeKunde= kunden.getRowData();
+    return"neuerKunde";
+    }
+
+    public Anrede[] getAnredeValues() {
+        return Anrede.values();
+    }
+
+
 
 }
