@@ -2,10 +2,11 @@ package de.hsb.app.kv.controller;
 
 import de.hsb.app.kv.model.Anrede;
 import de.hsb.app.kv.model.Kunde;
+import de.hsb.app.kv.model.Kreditkarte;
+import de.hsb.app.kv.model.Kreditkartentyp;
+
 
 import java.io.Serializable;
-
-
 
 import javax.annotation.PostConstruct;
 import javax.annotation.Resource;
@@ -16,6 +17,7 @@ import javax.inject.Named;
 import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 import javax.transaction.*;
+
 
 @SessionScoped
 @Named("kundenHandler")
@@ -48,6 +50,8 @@ public class kundenHandler implements Serializable {
         this.kunden = kunden;
     }
 
+
+
     @PostConstruct
     public void init() {
 
@@ -66,6 +70,7 @@ public class kundenHandler implements Serializable {
     }
 
     public String neu() {
+
         System.out.println("Ich bin die Methode neu() und wurde gerade aufgerufen");
         merkeKunde = new Kunde();
         return "neuerKunde";
@@ -73,7 +78,6 @@ public class kundenHandler implements Serializable {
 
     @Transactional
     public String speichern() {
-        System.out.println("Ich speichere");
         merkeKunde = em.merge(merkeKunde);
         em.persist(merkeKunde);
         kunden.setWrappedData(em.createNamedQuery("SelectKunden").getResultList());
@@ -81,7 +85,6 @@ public class kundenHandler implements Serializable {
     }
     @Transactional
     public String delete() {
-        System.out.println("Ich Lösche");
         merkeKunde= kunden.getRowData();
         merkeKunde= em.merge(merkeKunde);
         em.remove(merkeKunde);
@@ -90,15 +93,24 @@ public class kundenHandler implements Serializable {
     }
     @Transactional
     public String edit() {
-        System.out.println("Ich Editiere");
         merkeKunde= kunden.getRowData();
     return"neuerKunde";
     }
+    public String editKreditkarte() {
+        merkeKunde = kunden.getRowData();
+        if (merkeKunde.getKreditkarte() == null)
+            merkeKunde.setKreditkarte(new Kreditkarte());
+        return "neueKarte";
+    }
+
 
     public Anrede[] getAnredeValues() {
         return Anrede.values();
     }
 
+    public Kreditkartentyp[] getKreditkartenTypValues() {
+        return Kreditkartentyp.values();
+    }
 
 
 }

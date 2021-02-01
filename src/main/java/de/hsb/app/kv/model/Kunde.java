@@ -21,13 +21,17 @@ public class Kunde implements Serializable {
     @Temporal(TemporalType.DATE)
     private Date geburtsdatum;
 
-    public Kunde() { }
+    @OneToOne(cascade = CascadeType.ALL)
+    private Kreditkarte kreditkarte;
 
-    public Kunde(Anrede anrede,String vorname, String nachname, Date geburtsdatum) {
+    public Kunde(){ }
+
+    public Kunde(Anrede anrede,String vorname, String nachname, Date geburtsdatum, Kreditkarte kreditkarte) {
         this.anrede = anrede;
         this.vorname = vorname;
         this.nachname = nachname;
         this.geburtsdatum = geburtsdatum;
+        this.kreditkarte = kreditkarte;
     }
 
     public String getVorname() {
@@ -56,6 +60,14 @@ public class Kunde implements Serializable {
 
     public void setAnrede(Anrede anrede) {
         this.anrede = anrede;
+    }
+
+    public Kreditkarte getKreditkarte() {
+        return kreditkarte;
+    }
+
+    public void setKreditkarte(Kreditkarte kreditkarte) {
+        this.kreditkarte = kreditkarte;
     }
 
     public void setGeburtsdatum(Date geburtsdatum) {
